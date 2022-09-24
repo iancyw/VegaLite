@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Top Australian Flight Routes between Jan 2019 and Dec 2020",
+  "title": "Top Australia Flight Routes by Aircraft Trips between Jan 2019 and Dec 2020",
   "layer": [
     {"data": {
       "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/js/output.json",
@@ -44,7 +44,9 @@
         "latitude2": {"field": "lat2"},
         "longitude2": {"field": "lon2"},
         "tooltip": [
-          {"field": "Destination"}
+          {"field": "Origin"},
+          {"field": "Destination"},
+          {"field": "Count"}
         ]
       }
     },
@@ -52,7 +54,7 @@
       "mark": {"type": "circle"},
       "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights.csv"},
       "transform": [
-        {"aggregate": [{"op": "count", "as": "routes"}], "groupby": ["Origin"]},
+        {"aggregate": [{"op": "count", "as": "Routes"}], "groupby": ["Origin"]},
         {
           "lookup": "Origin",
           "from": {
@@ -66,7 +68,7 @@
         "name": "org",
         "select": {
           "type": "point",
-          "on": "mouseover",
+          "on": "click",
           "nearest": false,
           "fields": ["Origin"]
         }
@@ -75,16 +77,17 @@
         "latitude": {"field": "Latitude"},
         "longitude": {"field": "Longitude"},
         "size": {
-          "field": "routes",
+          "field": "Routes",
           "type": "quantitative",
-          "scale": {"rangeMax": 1000},
+          "scale": {"rangeMax": 500},
           "legend": null
         },
         "tooltip": [
-          {"field": "Origin"}
+          {"field": "Origin"},
+          {"field": "Routes"}
         ],
         "order": {
-          "field": "routes",
+          "field": "Routes",
           "sort": "descending"
         }
       }
