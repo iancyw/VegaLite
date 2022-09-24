@@ -1,106 +1,96 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 900,
-  "height": 500,
   "title": "Top Australian Flight Routes between Jan 2019 and Dec 2020",
   "layer": [
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/js/ne_110m.json",
-        "format": {
-          "type": "topojson",
-          "feature": "ne_110m_admin_0_countries"
-        }
-      },
-      "projection": {
-        "type": "equirectangular"
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": "lightgrey",
-        "stroke": "white"
+    {"data": {
+      "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/js/output.json",
+      "format": {
+      "type": "topojson",
+      "feature": "STE_2016_AUST"
       }
     },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"
-      },
-      "projection": {
-        "type": "equirectangular"
-      },
-      "mark":{
-        "type":"circle" 
-      },
-      "encoding": {
-        "longitude": {
-          "field": "Longitude",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "Latitude",
-          "type": "quantitative"
-        },
-        "tooltip":[
-          {"field": "Airport"},
-          {"field": "Latitude"},
-          {"field": "Longitude"}
-        ],
-        "size": {
-          "value": 50
-        },
-        "color": {"value": "steelblue"}
-      }
+    "mark": {
+      "type": "geoshape",
+      "fill": "lightgray",
+      "stroke": "white"
+    }
     },
     {
-      "data": {
-        "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights.csv"
-      },
+      "mark": {"type": "rule", "color": "black", "opacity": 1},
+      "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights.csv"},
       "transform": [
-        
+        {"filter": {"param": "org", "empty": false}},
         {
           "lookup": "Origin",
           "from": {
-            "data": {
-              "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"
-            },
+            "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"},
             "key": "Airport",
             "fields": ["Latitude", "Longitude"]
-          },
-          "as": ["origin_latitude", "origin_longitude"]
+          }
         },
         {
           "lookup": "Destination",
           "from": {
-            "data": {
-              "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"
-            },
+            "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"},
             "key": "Airport",
             "fields": ["Latitude", "Longitude"]
           },
-          "as": ["dest_latitude", "dest_longitude"]
+          "as": ["lat2", "lon2"]
         }
       ],
-      "projection": {
-        "type": "equirectangular"
-      },
-      "mark": "rule",
       "encoding": {
-        "longitude": {
-          "field": "origin_longitude",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "origin_latitude",
-          "type": "quantitative"
-        },
+        "latitude": {"field": "Latitude"},
+        "longitude": {"field": "Longitude"},
+        "latitude2": {"field": "lat2"},
+        "longitude2": {"field": "lon2"},
+        "tooltip": [
+          {"field": "Destination"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "circle"},
+      "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights.csv"},
+      "transform": [
+        {"aggregate": [{"op": "count", "as": "routes"}], "groupby": ["Origin"]},
+        {
+          "lookup": "Origin",
+          "from": {
+            "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"},
+            "key": "Airport",
+            "fields": ["Latitude", "Longitude"]
+          }
+        }
+      ],
+      "params": [{
+        "name": "org",
+        "select": {
+          "type": "point",
+          "on": "mouseover",
+          "nearest": false,
+          "fields": ["Origin"]
+        }
+      }],
+      "encoding": {
+        "latitude": {"field": "Latitude"},
+        "longitude": {"field": "Longitude"},
         "size": {
-          "field": "Aircraft_Trips",
+          "field": "routes",
           "type": "quantitative",
-          "title": "Number of flights"
+          "scale": {"rangeMax": 1000},
+          "legend": null
         },
-        "longitude2": {"field": "dest_longitude"},
-        "latitude2": {"field": "dest_latitude"}
+        "tooltip": [
+          {"field": "Origin"}
+        ],
+        "order": {
+          "field": "routes",
+          "sort": "descending"
+        }
       }
     }
-  ]
+  ],
+  "projection": {"type": "equirectangular"},
+  "width": 900,
+  "height": 500
 }
