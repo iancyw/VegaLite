@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Top Australia Flight Routes by Aircraft Trips between Jan 2019 and Dec 2020",
+  "title": "Number of outgoing flights by Airport and Date",
   "layer": [
     {"data": {
       "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/js/output.json",
@@ -68,7 +68,7 @@
         "name": "org",
         "select": {
           "type": "point",
-          "on": "click",
+          "on": "mouseover",
           "nearest": false,
           "fields": ["Origin"]
         }

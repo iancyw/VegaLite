@@ -15,10 +15,17 @@
   
 <div id="flight_map"></div>
 
+<div id="total_outgoing_line"></div>
+
 <script type="text/javascript">
 
   var spec2 = "js/flight_routes.vg.json";
   vegaEmbed('#flight_map', spec2).then(function(result) {
+    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+  }).catch(console.error);
+
+  var spec3 = "js/total_outgoing_line.vg.json";
+  vegaEmbed('#total_outgoing_line', spec3).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 </script>
