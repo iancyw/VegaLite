@@ -1,8 +1,78 @@
-#flight_map {
-	top:100px;
-	bottom: 100px; 
-	left: 100px;
-	right: 100px;
-	/*height: 1000px;
-	width: 800px;*/
+* {
+  font-family: "Inter", sans-serif;
+  line-height: 1.5;
 }
+
+body {
+  background-image: url(360_F_354876582_y72JIH15G57bl6zRM0Z2MGV3eD1RQphE.jpg)
+}
+
+h1 {
+  font-size: 55px;
+}
+
+h2 {
+  font-size: 35px;
+  color: darkslategrey;
+}
+
+.alicesprings_text {
+	color: #008169;
+}
+
+.brisbane_text {
+	color: #ff00a2;
+}
+
+.karratha_text {
+	color: #9400E6;
+}
+
+.goldcoast_text {
+	color: #FF71FD;
+}
+
+.melbourne_text {
+	color: #6A0213;
+}
+
+.portmac_text {
+	color: #F60239;
+}
+
+.sydney_text {
+	color: #FFDC3D;
+}
+
+.page {
+	border-radius: 30px;
+	width: 1000px;
+	background-color: white;
+	margin: auto;
+	padding: 50px;
+	padding-top: 10px;
+	display: flexbox;
+}
+
+.page_container {
+	border-radius: 30px;
+	width: 1100px;
+	background-color: lightslategray;
+	margin: auto;
+	padding: 25px;
+	padding-top: 25px;
+}
+
+.separator{
+	width: 25px;
+	height: 25px;
+  }
+
+#rcorners1 {
+	border-radius: 25px;
+	background: white;
+	padding: 20px;
+	width: 200px;
+	height: 150px;
+  }
+  

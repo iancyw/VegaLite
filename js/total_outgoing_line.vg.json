@@ -1,17 +1,15 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": "Total outgoing aircraft trips by Origin and Date",
+    "title": "Total outgoing aircraft trips by Airport and Date",
     "height": 450,
-    "width": 1000,
+    "width": 800,
     "layer" : [
     {
       "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights_full.csv"},
       "transform": [
-      {
-        "calculate": "datetime(datum.Year, datum.Month, -30)",
-        "as": "Date"
-      },
-      {"filter": {"field": "Date", "timeUnit": "year", "range": [2019, 2020]}}
+        {"calculate": "datetime(datum.Year, datum.Month, -30)", "as": "Date"},
+        {"filter": {"field": "Date", "timeUnit": "year", "range": [2019, 2020]}},
+        {"filter": "datum.Aircraft_Trips >= 0"}
       ],
       "params":[
         {
@@ -21,69 +19,97 @@
         }
       ],
       "mark": "line",
-      "encoding": {
-        "x": {
-          "field": "Date",
-          "type": "temporal",
-          "axis": {
-            "tickCount": 24,
-            "labelAlign": "left",
-            "labelExpr": "[timeFormat(datum.value, '%b'), timeFormat(datum.value, '%m') == '01' ? timeFormat(datum.value, '%Y') : '']",
-            "labelOffset": 4,
-            "labelPadding": -25,
-            "tickSize": 30,
-            "gridDash": {
-              "condition": {
-                "test": {"field": "value", "timeUnit": "month", "equal": 1},
-                "value": []
+        "encoding": {
+          "x": {
+            "field": "Date",
+            "type": "temporal",
+            "axis": {
+              "tickCount": 24,
+              "labelAlign": "left",
+              "labelExpr": "[timeFormat(datum.value, '%b'), timeFormat(datum.value, '%m') == '01' ? timeFormat(datum.value, '%Y') : '']",
+              "labelOffset": 4,
+              "labelPadding": -25,
+              "tickSize": 30,
+              "gridDash": {
+                "condition": {
+                  "test": {"field": "value", "timeUnit": "month", "equal": 1},
+                  "value": []
+                },
+                "value": [2, 2]
               },
-              "value": [2, 2]
-            },
-            "tickDash": {
-              "condition": {
-                "test": {"field": "value", "timeUnit": "month", "equal": 1},
-                "value": []
-              },
-              "value": [2, 2]
+              "tickDash": {
+                "condition": {
+                  "test": {"field": "value", "timeUnit": "month", "equal": 1},
+                  "value": []
+                },
+                "value": [2, 2]
+              }
             }
-          }
+          },
+          "y": {
+            "aggregate": "sum",
+            "field": "Aircraft_Trips",
+            "type": "quantitative",
+            "title": "Total Aircraft Trips"
+          },
+          "color": {
+            "field": "Origin", 
+            "type": "nominal",
+            "scale": {
+              "domain": [
+                "ADELAIDE", "ALICE SPRINGS",
+                "BRISBANE","CAIRNS", "CANBERRA",
+                "DARWIN", "KARRATHA", "LAUNCESTON",
+                "GOLD COAST", "HOBART",
+                "MELBOURNE", "PERTH", "PORT MACQUARIE",
+                "SUNSHINE COAST", "SYDNEY"
+              ],
+              "range": [
+              "#68023F", "#008169","#EF0096",
+              "#00DCB5","#FFCFE2","#003C86",
+              "#9400E6","#009FFA", "#FF71FD",
+              "#7CFFFA", "#6A0213","#008607",
+              "#F60239","#00E307","#FFDC3D"
+              ]
+              }
+            },
+          "opacity": {
+            "condition": {"param": "origin_highlight", "value": 1},
+            "value": 0.1
+          },
+          "tooltip": [
+            {"field": "Origin", "type": "nominal"},
+            {
+              "field": "sum_Aircraft_Trips",
+              "type": "quantitative",
+              "format": ",",
+              "title": "Top Aircraft Trips"
+            }
+          ]
+        }
         },
-        "y": {
-          "aggregate": "sum", "field" : "Aircraft_Trips", "type": "quantitative", "title": "Total Aircraft Trips"
+      {
+        "data": {"values": [{}]},
+        "mark": {"type": "rule", "strokeDash": [2, 2], "size": 2},
+        "encoding": {"x": {"datum": {"year": 2020, "month": "March"}}}
+      },
+      {
+        "data": {"values": [{}]},
+        "mark": {
+          "type": "text",
+          "align": "left",
+          "baseline": "bottom",
+          "dx": 10,
+          "dy": -150,
+          "fontSize": 11.5,
+          "fontStyle": "italic"
         },
-      "color": {
-        "field": "Origin", "type": "nominal"
-      },
-      "opacity": {
-        "condition": {"param": "origin_highlight", "value": 1}, "value": 0.2
-      },
-      "tooltip": [
-              {"field": "Origin", "type": "nominal"},
-              {"field": "sum_Aircraft_Trips", "type": "quantitative", "format": ",", "title": "Total Aircraft Trips"}
-            ]
-      }
-    },
-    {
-      "data" : {"values": [{}]},
-      "mark": {"type": "rule", "strokeDash": [2, 2], "size": 2},
-      "encoding": {
-        "x": {"datum": {"year": 2020, "month": "March"}}
-      }
-    },
-    {
-      "data": {"values": [{}]},
-      "mark": {
-        "type": "text",
-        "align": "left",
-        "baseline": "bottom",
-        "dx": 10,
-        "dy": -150,
-        "fontSize": 11.5,
-        "fontStyle": "italic"
-      },
-      "encoding": {
-          "text": {"value": "March 2020: World Health Organization declares COVID-19 a pandemic"},
+        "encoding": {
+          "text": {
+            "value": ["March 2020: World Health Organization (WHO) declares"," COVID-19 a pandemic"]
+          },
           "x": {"datum": {"year": 2020, "month": "March"}}
+        }
       }
+      ]
     }
-   ]}

@@ -1,0 +1,72 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Top 15 Busiest Flight Routes",
+    "height": 450,
+    "width": 800,
+    "data": {
+      "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights_full.csv"
+    },
+    "transform": [
+      {"calculate": "datum.Origin + '-' + datum.Destination", "as": "Route" },
+      {"aggregate": [
+        {
+          "op": "sum",
+          "field": "Aircraft_Trips",
+          "as": "Total_Aircraft_Trips"
+        }
+      ],
+      "groupby": ["Origin","Route"]},
+      {"window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }],
+        "sort": [{ "field": "Total_Aircraft_Trips", "order": "descending" }]
+      },
+      {"filter": "datum.rank <= 15"}
+      ],
+    "mark": "bar",
+    "encoding": {
+      "x": {
+        "field": "Total_Aircraft_Trips",
+        "type": "quantitative",
+        "title": "Total Aircraft Trips"
+      },
+      "y": {
+        "field": "Route",
+        "title": "Flight Route",
+        "sort": "-x"
+      },
+      "color": {
+              "field": "Origin", 
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "ADELAIDE", "ALICE SPRINGS",
+                  "BRISBANE","CAIRNS", "CANBERRA",
+                  "DARWIN", "KARRATHA", "LAUNCESTON",
+                  "GOLD COAST", "HOBART",
+                  "MELBOURNE", "PERTH", "PORT MACQUARIE",
+                  "SUNSHINE COAST", "SYDNEY"
+                ],
+                "range": [
+                "#68023F", "#008169","#EF0096",
+                "#00DCB5","#FFCFE2","#003C86",
+                "#9400E6","#009FFA", "#FF71FD",
+                "#7CFFFA", "#6A0213","#008607",
+                "#F60239","#00E307","#FFDC3D"
+                ]
+                },
+                "legend": null
+              },
+        "tooltip": [
+          {
+          "field": "Total_Aircraft_Trips",
+          "type": "quantitative",
+          "format": ",",
+          "title": "Total Aircraft Trips"
+          }
+          ]
+    }
+  }
+  

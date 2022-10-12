@@ -1,29 +1,27 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Number of outgoing flights by Airport and Date",
+  "title": "Domestic Flight Routes by Airport",
   "layer": [
-    {"data": {
-      "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/js/output.json",
-      "format": {
-      "type": "topojson",
-      "feature": "STE11aAust"
-      }
-    },
-    "mark": {
-      "type": "geoshape",
-      "fill": "lightgray",
-      "stroke": "white"
-    }
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/js/output.json",
+        "format": {"type": "topojson", "feature": "STE11aAust"}
+      },
+      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"}
     },
     {
       "mark": {"type": "rule", "color": "black", "opacity": 1},
-      "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights.csv"},
+      "data": {
+        "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights.csv"
+      },
       "transform": [
         {"filter": {"param": "org", "empty": false}},
         {
           "lookup": "Origin",
           "from": {
-            "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"},
+            "data": {
+              "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"
+            },
             "key": "Airport",
             "fields": ["Latitude", "Longitude"]
           }
@@ -31,7 +29,9 @@
         {
           "lookup": "Destination",
           "from": {
-            "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"},
+            "data": {
+              "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"
+            },
             "key": "Airport",
             "fields": ["Latitude", "Longitude"]
           },
@@ -52,48 +52,80 @@
     },
     {
       "mark": {"type": "circle"},
-      "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights.csv"},
+      "data": {
+        "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights.csv"
+      },
       "transform": [
         {"aggregate": [{"op": "count", "as": "Routes"}], "groupby": ["Origin"]},
         {
           "lookup": "Origin",
           "from": {
-            "data": {"url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"},
+            "data": {
+              "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports.csv"
+            },
             "key": "Airport",
             "fields": ["Latitude", "Longitude"]
           }
         }
       ],
-      "params": [{
-        "name": "org",
-        "select": {
-          "type": "point",
-          "on": "mouseover",
-          "nearest": false,
-          "fields": ["Origin"]
+      "params": [
+        {
+          "name": "org",
+          "select": {
+            "type": "point",
+            "on": "click",
+            "nearest": false,
+            "fields": ["Origin"]
+          },
+          "bind": "legend"
         }
-      }],
+      ],
       "encoding": {
         "latitude": {"field": "Latitude"},
         "longitude": {"field": "Longitude"},
         "size": {
           "field": "Routes",
           "type": "quantitative",
-          "scale": {"rangeMax": 500},
-          "legend": null
+          "scale": {"rangeMax": 500}
         },
-        "tooltip": [
-          {"field": "Origin"},
-          {"field": "Routes"}
-        ],
-        "order": {
-          "field": "Routes",
-          "sort": "descending"
-        }
+        "color": {
+          "field": "Origin",
+          "type": "nominal",
+          "scale": {
+              "domain": [
+                "ADELAIDE", "ALICE SPRINGS",
+                "BRISBANE","CAIRNS", "CANBERRA",
+                "DARWIN", "KARRATHA", "LAUNCESTON",
+                "GOLD COAST", "HOBART",
+                "MELBOURNE", "PERTH", "PORT MACQUARIE",
+                "SUNSHINE COAST", "SYDNEY"
+              ],
+              "range": [
+              "#68023F", "#008169","#EF0096",
+              "#00DCB5","#FFCFE2","#003C86",
+              "#9400E6","#009FFA", "#FF71FD",
+              "#7CFFFA", "#6A0213","#008607",
+              "#F60239","#00E307","#FFDC3D"
+              ]
+              }
+        },
+        "tooltip": [{"field": "Origin"}, {"field": "Routes"}],
+        "opacity": {
+            "condition": {"param": "org", "value": 0.7},
+            "value": 0.2
+        },
+        "order": {"field": "Routes", "sort": "descending"}
       }
     }
   ],
+  "config": {
+    "style": {
+      "cell": {
+        "stroke": "transparent"
+      }
+    }
+  },
   "projection": {"type": "equirectangular"},
   "width": 900,
-  "height": 500
+  "height": 450
 }

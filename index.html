@@ -1,34 +1,172 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
-  
-  
-  <!-- CSS file -->
-  <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
-  
-</head>
-<body>
-  
-<div id="flight_map"></div>
+  <head>
+    <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
 
-<div id="total_outgoing_line"></div>
+    <!--Import pure.css-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css"
+      integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css"
+    />
 
-<script type="text/javascript">
+    <!-- CSS file -->
+    <link rel="stylesheet" type="text/css" href="css/styles.css" media="all" />
 
-  var spec2 = "js/flight_routes.vg.json";
-  vegaEmbed('#flight_map', spec2).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
+    <!--Google Font-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-  var spec3 = "js/total_outgoing_line.vg.json";
-  vegaEmbed('#total_outgoing_line', spec3).then(function(result) {
-    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-  }).catch(console.error);
-</script>
+  <body>
+    <div class="separator"></div>
 
-</body>
+    <div class="page_container">
+    <div class="page">
+      <!--Title + Desc-->
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <h1>Domestic Flight Trends (2019-2020)</h1>
+          <p>
+            We will be examining the air traffic trends of the top 15 busiest airports in Australia during the period 2019-2020, 
+            including how COVID-19 pandemic had impacted Australia's domestic air travel.
+          </p>
+          <p>
+            This dataset was downloaded from data.gov.au 
+            <a href=https://data.gov.au/dataset/ds-dga-c5029f2a-39b3-4aef-8ae1-73e7962f6170/details>here</a>. It contains
+            monthly aggregated data of flights between Australian cities. Covers
+            Regular Public Transport (RPT) air services between Australian
+            airports. Data is by city pair and month for passengers carried,
+            aircraft trips, great circle distance between two airports
+            (connected to city), Revenue Passenger Kilometres (RPKs), Available
+            Seat Kilometres (ASKs) and Seats.
+          </p>
+        </div>
+      </div>
+      <!-- end pure grid group -->
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="page">
+      <!--Flight Route Title-->
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <h2>Flight Routes</h2>
+        </div>
+      </div>
+
+      <!-- Flight Map -->
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <div id="flight_map"></div>
+        </div>
+      </div>
+      <!-- end pure grid group -->
+
+      <!--Flight Route Description-->
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <p><i>(Click on the airports above to view routes.)</i></p>
+          <p>
+            The number of flight routes and traffic varies according to the location, with the busiest airports being tied to major cities around Australia.
+          </p>
+          <p>
+            The airport that has the most number of outgoing flight routes is <b><span class="brisbane_text">Brisbane</span></b>, with 16 outgoing flight routes.
+          </p>
+          <p>
+            The airports with the least amount of outgoing flight routes are tied between <b><span class="alicesprings_text">Alice Springs</span></b>, 
+            <b><span class="karratha_text">Karratha</span></b>, <b><span class="goldcoast_text">Gold Coast</span></b>, and <b><span class="portmac_text">Port Macquarie</span></b>, 
+            which all have 1 outgoing flight route.
+          </p>
+        </div>
+
+        <!--Aircraft Routes Rank-->
+        <div class="pure-g">
+          <div class="pure-u-1-1">
+            <div id="flight_route_rank"></div>
+          </div>
+        </div>
+
+        <!--Flight Route Rank Description-->
+        <div class="pure-g">
+          <div class="pure-u-1-1">
+            <p>
+              Taking a look at the top 15 flight routes, we can see that <b><span class="melbourne_text">Melbourne-Sydney</span></b> flight route has the most number of Aircraft Trips at 79,474.
+            </p>
+            <p>
+              Five of the top 15 flight routes of them originate from <b><span class="brisbane_text">Brisbane</span></b> airport, indicating that it has the most air traffic out of the top 15 airports.
+              This is followed closely by <b><span class="melbourne_text">Melbourne</span></b> airport, which has three of the top 15 flight routes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="page">
+      <!--Aircraft Trips Title-->
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <h2>Aircraft Trips</h2>
+        </div>
+      </div>
+
+      <!-- Total Outgoing Line Graph -->
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <div id="total_outgoing_line" class=vis></div>
+        </div>
+      </div>
+
+      <!--Total Outgoing Line Graph Description-->
+      <div class="pure-g">
+        <div class="pure-u-1-1">
+          <p>
+            Taking a look at the top 15 flight routes, we can see that <b><span class="melbourne_text">Melbourne-Sydney</span></b> flight route has the most number of Aircraft Trips at 79,474.
+          </p>
+          <p>
+            Five of the top 15 flight routes of them originate from <b><span class="brisbane_text">Brisbane</span></b> airport, indicating that it has the most air traffic out of the top 15 airports.
+            This is followed closely by <b><span class="melbourne_text">Melbourne</span></b> airport, which has three of the top 15 flight routes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>    
+  <div class="separator"></div>
+
+    <script type="text/javascript">
+      var spec1 = "js/flight_routes.vg.json";
+      vegaEmbed("#flight_map", spec1, {"actions": false})
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+
+      var spec2 = "js/total_outgoing_line.vg.json";
+      vegaEmbed("#total_outgoing_line", spec2, {"actions": false})
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+
+      var spec3 = "js/flight_routes_rank.vg.json";
+      vegaEmbed("#flight_route_rank", spec3, {"actions": false})
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+    </script>
+  </body>
 </html>
