@@ -126,6 +126,6 @@
     }
   },
   "projection": {"type": "equirectangular"},
-  "width": 900,
+  "width": 820,
   "height": 450
 }

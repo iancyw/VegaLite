@@ -96,7 +96,7 @@
               Taking a look at the top 15 flight routes, we can see that <b><span class="melbourne_text">Melbourne-Sydney</span></b> flight route has the most number of Aircraft Trips at 79,474.
             </p>
             <p>
-              Five of the top 15 flight routes of them originate from <b><span class="brisbane_text">Brisbane</span></b> airport, indicating that it has the most air traffic out of the top 15 airports.
+              Five of the top 15 flight routes of them originate from <b><span class="brisbane_text">Brisbane</span></b> airport, indicating that it has the one of the most air traffic out of the top 15 airports.
               This is followed closely by <b><span class="melbourne_text">Melbourne</span></b> airport, which has three of the top 15 flight routes.
             </p>
           </div>
@@ -125,16 +125,86 @@
       <div class="pure-g">
         <div class="pure-u-1-1">
           <p>
-            Taking a look at the top 15 flight routes, we can see that <b><span class="melbourne_text">Melbourne-Sydney</span></b> flight route has the most number of Aircraft Trips at 79,474.
+            Taking a look at the line graph for total outgoing aircraft trips, 
+            we can see that the top 3 airports are <b><span class="brisbane_text">Brisbane</span></b>, <b><span class="melbourne_text">Melbourne</span></b>, and <b><span class="adelaide_text">Adelaide</span></b> respectively.
           </p>
           <p>
-            Five of the top 15 flight routes of them originate from <b><span class="brisbane_text">Brisbane</span></b> airport, indicating that it has the most air traffic out of the top 15 airports.
-            This is followed closely by <b><span class="melbourne_text">Melbourne</span></b> airport, which has three of the top 15 flight routes.
+            At the end of January 2020, the World Health Organisation (WHO) declares COVID-19 as a public health emergency of international concern. Following the WHO's announcement of COVID-19 as a pandemic in March 2020, air travel was restricted by Australia unless exempted due to special circumstances. 
+          </p>
+          <p>
+            These events are reflected in the line graph by a gradual drop in total aircraft trips between January and March as less people began to travel due to the COVID-19 outbreak, followed by an immediate drop in total outgoing aircraft trips after WHO's pandemic announcement and Australia's subsequent restriction of air travel in March 2020. 
           </p>
         </div>
       </div>
     </div>
   </div>    
+
+  <div class="separator"></div>
+
+  <div class="page">
+    <!--ASK and RPK Title-->
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <h2>RPKs and ASKs</h2>
+      </div>
+    </div>
+
+    <!--ASK and RPK Description-->
+    <div class="pure-g">
+      <div class="pure-u-1-1">
+        <p>Quoted from <a href=https://airlinegeeks.com/2016/01/17/airline-metrics-revenue-passenger-kilometers>AirlineGeeks.com</a>:</p>
+        <blockquote cite="http://www.worldwildlife.org/who/index.html">
+          <b>Revenue Passenger Kilometers (RPK)</b> is an airline industry metric that shows the number of kilometers traveled by paying passengers. 
+          It is calculated as the number of revenue passengers multiplied by the total distance traveled. Since it measures the actual demand for air transport, it is often referred to as airline “traffic.”
+        </blockquote>
+        <blockquote cite="http://www.worldwildlife.org/who/index.html">
+          They are often compared to the <b>Available Seat Kilometers (ASK)</b>, which show the total number of passenger kilometers that could be generated in order to determine the amount of revenue that comes in compared to the maximum amount.
+          Airlines have to try to match their supply (ASKs) with the market demand (RPKs).
+        </blockquote>
+        <p>
+          The graph below has a rule mark that is showing when ASK is equal to RPK, which is to say when market supply is meeting the market demand. 
+          Any points below the diagonal line indicate airports that have excess capacity, and any points above the diagonal line indicate airports that are unable to accomodate the demand.  
+        </p>
+
+        <!-- ASK RPK Scatter Plot -->
+        <div class="pure-g">
+          <div class="pure-u-1-1">
+            <div id="ask_rpk" class=vis></div>
+          </div>
+        </div>
+
+        <p>
+          If we take a look at March 2020, we can see that RPK started to begin to drop rapidly, as restrictions on air travel were put into place by the Australian government due to COVID-19.
+          Airports were unable to decrease their supply fast enough to account for the decreased demand, which is indicated by the increased distance from the diagonal line. 
+          Airports were beginning to lose money because of the associated fixed costs with maintaining their airplanes in an operable state.
+        </p>
+        <p>
+          By April 2020, we can see that airports have managed to scale back their supply in order to save on fixed costs due to the lower demand.
+        </p>
+        <p>Some interesting observations that can be made:</p>
+        <ul>
+          <li>Despite having less number of total aircraft trips compared to <b><span class="brisbane_text">Brisbane</span></b>, <b><span class="melbourne_text">Melbourne</span></b> has a higher RPK. This indicates that Melbourne has higher airline traffic.</li>
+          <li>During the months of August, September, and October, the <b><span class="karratha_text">Karratha</span></b> airport overtook most of the major airports in RPK. This indicates that there was some airline traffic during this time.</li>
+          <li>Airports that have less aircraft trips on average tend to be more cost-efficient with less excess capacity. Larger airports with more aircraft trips on average tend to have more excess capacity. This could be because larger airports are expecting larger fluctuations in demand, and therefore increase their supply to accomodate for this.</li>
+        </ul>
+
+        <!-- Total Outgoing Line Graph -->
+        <div class="pure-g">
+          <div class="pure-u-1-1 small-font">
+            <p>
+              This data visualisation was created by Ian Wong for FIT3179 Data Visualisation at Monash University. 
+              The GitHub repository for this website can be found at this <a href=https://github.com/iancyw/VegaLite>link</a>.
+            </p>
+            <p>
+              Last updated October 2022.
+            </p>
+          </div>
+        </div>
+        
+        </div>
+    </div>
+  </div>
+
   <div class="separator"></div>
 
     <script type="text/javascript">
@@ -154,6 +224,13 @@
 
       var spec3 = "js/flight_routes_rank.vg.json";
       vegaEmbed("#flight_route_rank", spec3, {"actions": false})
+        .then(function (result) {
+          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        })
+        .catch(console.error);
+
+      var spec4 = "js/ask_rpk.vg.json";
+      vegaEmbed("#ask_rpk", spec4, {"actions": false})
         .then(function (result) {
           // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
         })

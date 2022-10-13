@@ -4,7 +4,15 @@
 }
 
 body {
-  background-image: url(360_F_354876582_y72JIH15G57bl6zRM0Z2MGV3eD1RQphE.jpg)
+	background-color:hsla(0,0%,100%,1);
+	background-image:
+	radial-gradient(at 40% 20%, hsla(28,100%,74%,0.34) 0px, transparent 50%),
+	radial-gradient(at 80% 0%, hsla(189,100%,56%,0.32) 0px, transparent 50%),
+	radial-gradient(at 0% 50%, hsla(355,100%,93%,0.31) 0px, transparent 50%),
+	radial-gradient(at 80% 50%, hsla(340,100%,76%,0.3) 0px, transparent 50%),
+	radial-gradient(at 0% 100%, hsla(22,100%,77%,0.34) 0px, transparent 50%),
+	radial-gradient(at 80% 100%, hsla(240,100%,70%,0.3) 0px, transparent 50%),
+	radial-gradient(at 0% 0%, hsla(343,100%,76%,0.31) 0px, transparent 50%);
 }
 
 h1 {
@@ -14,6 +22,10 @@ h1 {
 h2 {
   font-size: 35px;
   color: darkslategrey;
+}
+
+.adelaide_text{
+	color: #68023F;
 }
 
 .alicesprings_text {
@@ -57,7 +69,7 @@ h2 {
 .page_container {
 	border-radius: 30px;
 	width: 1100px;
-	background-color: lightslategray;
+	/* background-color: silver; */
 	margin: auto;
 	padding: 25px;
 	padding-top: 25px;
@@ -68,6 +80,11 @@ h2 {
 	height: 25px;
   }
 
+.small-font{
+	font-size: small;
+	color: grey;
+}
+
 #rcorners1 {
 	border-radius: 25px;
 	background: white;
@@ -75,4 +92,9 @@ h2 {
 	width: 200px;
 	height: 150px;
   }
+
+.page:hover {
+	border: 2px solid;
+	border-color:gainsboro;
+}
   

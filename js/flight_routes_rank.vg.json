@@ -67,6 +67,13 @@
           "title": "Total Aircraft Trips"
           }
           ]
+    },
+    "config": {
+      "style": {
+        "cell": {
+          "stroke": "transparent"
+        }
+      }
     }
   }
   

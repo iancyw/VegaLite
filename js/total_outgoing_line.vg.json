@@ -83,7 +83,12 @@
               "field": "sum_Aircraft_Trips",
               "type": "quantitative",
               "format": ",",
-              "title": "Top Aircraft Trips"
+              "title": "Total Aircraft Trips"
+            },
+            {
+              "field": "Date",
+              "type": "temporal",
+              "format": "%b %Y"
             }
           ]
         }
@@ -110,6 +115,36 @@
           },
           "x": {"datum": {"year": 2020, "month": "March"}}
         }
+      },
+      {
+        "data": {"values": [{}]},
+        "mark": {"type": "rule", "strokeDash": [2, 2], "size": 2},
+        "encoding": {"x": {"datum": {"year": 2020, "month": "January"}}}
+      },
+      {
+        "data": {"values": [{}]},
+        "mark": {
+          "type": "text",
+          "align": "left",
+          "baseline": "bottom",
+          "dx": 10,
+          "dy": -200,
+          "fontSize": 11.5,
+          "fontStyle": "italic"
+        },
+        "encoding": {
+          "text": {
+            "value": ["January 2020: World Health Organization (WHO) declares"," COVID-19 a public health emergency of international concern"]
+          },
+          "x": {"datum": {"year": 2020, "month": "January"}}
+        }
       }
-      ]
+      ],
+      "config": {
+        "style": {
+          "cell": {
+            "stroke": "transparent"
+          }
+        }
+      }
     }

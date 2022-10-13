@@ -1,0 +1,150 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "width": 760,
+    "height": 450,
+    "title": "Average RPK against Average ASK by Airport",
+    "data": {
+        "url": "https://raw.githubusercontent.com/iancyw/VegaLite/main/data/airports_flights_full.csv"
+    },
+    "params": [
+        {
+            "name": "Year",
+            "value": 2020,
+            "bind": {
+                "input": "range",
+                "min": 2019,
+                "max": 2020,
+                "step": 1,
+                "name": "Select Year: "
+            }
+        },
+        {
+            "name": "Month",
+            "value": 3,
+            "bind": {
+                "input": "range",
+                "min": 1,
+                "max": 12,
+                "step": 1,
+                "name": "Select Month: "
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter": "datum.Year==Year"
+        },
+        {
+            "filter": "datum.Month==Month"
+        },
+        {
+          "filter": "datum.ASKs > 0"
+          }
+    ],
+    "encoding": {
+        "x": {
+            "aggregate": "average",
+            "field": "ASKs",
+            "type": "quantitative",
+            "title": "ASK",
+            "scale": {
+              "domain": [
+                0,
+                340000000
+              ]
+              },
+            "axis": {
+              "tickCount": 17
+            }
+        },
+        "y": {
+            "aggregate": "average",
+            "field": "RPKs",
+            "title": "RPK",
+            "type": "quantitative",
+            "scale": {
+              "domain": [
+                0,
+                340000000
+              ]
+              }
+        }
+    },
+    "layer": [
+        {
+            "mark": "circle",
+            "encoding": {
+                "size": {
+                    "aggregate": "average",
+                    "field": "Aircraft_Trips",
+                    "type": "quantitative",
+                    "title": "Average Aircraft Trips"
+                },
+                "color": {
+                    "field": "Origin",
+                    "type": "nominal",
+                    "scale": {
+                      "domain": [
+                        "ADELAIDE", "ALICE SPRINGS",
+                        "BRISBANE","CAIRNS", "CANBERRA",
+                        "DARWIN", "KARRATHA", "LAUNCESTON",
+                        "GOLD COAST", "HOBART",
+                        "MELBOURNE", "PERTH", "PORT MACQUARIE",
+                        "SUNSHINE COAST", "SYDNEY"
+                      ],
+                      "range": [
+                      "#68023F", "#008169","#EF0096",
+                      "#00DCB5","#FFCFE2","#003C86",
+                      "#9400E6","#009FFA", "#FF71FD",
+                      "#7CFFFA", "#6A0213","#008607",
+                      "#F60239","#00E307","#FFDC3D"
+                      ]
+                    }
+                },
+                "tooltip": [
+                    {
+                        "field": "Origin",
+                        "type": "nominal",
+                        "title": "Airport"
+                    },
+                    {
+                        "field": "average_ASKs",
+                        "type": "quantitative",
+                        "format": ",",
+                        "title": "Average ASK"
+                    },
+                    {
+                        "field": "average_RPKs",
+                        "type": "quantitative",
+                        "format": ",",
+                        "title": "Average RPK"
+                    },
+                    {
+                      "field": "Month",
+                      "type": "quantitative"
+                    },
+                    {
+                        "field": "Year",
+                        "type": "quantitative"
+                    }
+                ]
+            }
+        },
+        {
+        "mark": {"type": "rule", "strokeDash": [3,6], "size": 2},
+        "encoding": {
+          "y": {
+            "value": 450
+            },
+          "x": {
+            "value": 0
+          },
+          "y2": {
+            "value": 0
+          },
+          "x2": {
+            "value": 750
+          }
+        }}
+      ]
+  }
